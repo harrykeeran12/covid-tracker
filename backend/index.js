@@ -4,6 +4,7 @@ const express = require('express');
 const app = express();
 
 
+/* Functions */
 async function scrapeCompleteTable(){
   const url = 'https://www.worldometers.info/coronavirus/';
   const browser = await puppeteer.launch();
@@ -21,6 +22,25 @@ async function scrapeCompleteTable(){
   return listdata
   
 }
+
+
+async function scrapeWorldData(){
+  const url = 'https://www.worldometers.info/coronavirus/';
+  const browser = await puppeteer.launch();
+  const page = await browser.newPage();
+  await page.goto(url);
+  
+  const data = await page.evaluate(() => {
+    const trs = Array.from(document.querySelectorAll('#main_table_countries_today tbody .total_row_world'))
+    return trs.map(tr => tr.innerText)
+  });
+  const listdata = data.map(function(e){
+    return e.split('\t')
+  })
+  browser.close()
+  return listdata[0]
+}
+
 async function countrySearch(data, country){
   for (let i = 0; i < data.length; i++) {
     if (data[i][1] == country) {
@@ -28,12 +48,34 @@ async function countrySearch(data, country){
     }
   }
 }
+async function allCountries(data){
+  let countries = []
+  for (let i = 0; i < data.length; i++) {
+    countries.push(data[i][1])
+  }
+  return countries
+}
+
+
 async function findCountry(country){
   const data = await scrapeCompleteTable().then(function(result){
     return countrySearch(result, country);
   });
   return await data
 }
+async function getTotalCountries(){
+  const data = await scrapeCompleteTable().then(function(result){
+    return allCountries(result);
+  });
+  
+  const countries = data;
+  return await countries
+
+  /* return await data; */
+  
+}
+
+
 
 async function countryData(country){
   const data = findCountry(country).then(function(result){
@@ -49,7 +91,7 @@ async function countryData(country){
 }
 
 
-
+/* Endpoints */
 app.get('/countries/:country/rawdata', function(req, res){
   const { country } = req.params
   findCountry(country).then(result => {
@@ -64,6 +106,25 @@ app.get('/countries/:country', function(req, res){
     res.send(result);
   })
 })
+
+app.get('/countries', function(req,res){
+  getTotalCountries().then(result=>{
+    res.send(result);
+  })
+})
+
+app.get('/alldata', function(req,res){
+  scrapeCompleteTable().then(result=> {
+    res.send(result)
+  })
+})
+
+app.get('/worlddata', function(req, res){
+  scrapeWorldData().then(result =>{
+    res.send(result)
+  })
+})
+
 
 const port = process.env.PORT || 3001
 app.listen(port, () => console.log(`listening on port ${port}...`))
