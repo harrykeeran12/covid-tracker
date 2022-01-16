@@ -36,22 +36,33 @@ async function findCountry(country){
 }
 
 async function countryData(country){
-  findCountry(country).then(function(result){
+  const data = findCountry(country).then(function(result){
+    
     console.log('Country =', result[1])
     console.log('Total Cases =', result[2])
     console.log('Total Deaths =', result[4])
     console.log('Total Recovered =', result[6])
+    let output = {'country': result[1], 'total_cases': result[2], 'total_deaths': result[4], 'total_recovered': result[6]}
+    return output;
   })
+  return await data
 }
 
 
 
-
+app.get('/countries/:country/rawdata', function(req, res){
+  const { country } = req.params
+  findCountry(country).then(result => {
+    res.send(result);
+  })
+})
 
 
 app.get('/countries/:country', function(req, res){
   const { country } = req.params
-  res.send(country)
+  countryData(country).then(result => {
+    res.send(result);
+  })
 })
 
 const port = process.env.PORT || 3001
