@@ -1,22 +1,35 @@
-
+/* eslint-disable no-unused-vars */
 import './App.css';
+import Card from './components/Card';
+import { useState, useEffect}  from 'react';
+import axios from 'axios';
+const App = () => {
+  const [World, setWorld] = useState([])
+  const [Selected, setSelected] = useState('UK')
+  const [Data, setData] = useState([])
+  const api = axios.create({baseURL: 'http://localhost:3001'})
+  useEffect(() => {
+    api.get('/worlddata').then(res=>{
+      setWorld(res.data)
+      console.log(res)
+    },
+    api.get('/countries/' + Selected + '/rawdata').then(res=>{
+      setData(res.data)
 
-function App() {
+    }
+    )
+  )
+    
+  }, [])
+  
+  
   return (
     <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="CountryWrapper">
+        <Card data={World} type='world'></Card>
+        <Card data={Data}></Card>
+      </div>
+      <div className="GraphWrapper"></div>
     </div>
   );
 }

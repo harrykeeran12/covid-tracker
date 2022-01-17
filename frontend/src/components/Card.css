@@ -1,0 +1,16 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+.CardWrapper{
+  text-align: left;
+  width: 25%;
+  background-color: #C3B7B6;
+  padding: 5px;
+  border-radius: 5px;
+  margin-top: 60px;
+  color: #005AA3;
+}
+.CardWrapper:not([type='world']):hover{
+  background-color: rgba(195, 183, 182, 0.75);
+}

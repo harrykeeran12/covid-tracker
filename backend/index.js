@@ -1,7 +1,15 @@
 const puppeteer = require('puppeteer');
 const express = require('express');
-
+const cors = require('cors')
 const app = express();
+app.use(
+  cors({
+    origin: '*',
+    methods: ['GET', 'POST']
+  }
+    
+  )
+)
 
 
 /* Functions */
@@ -96,6 +104,7 @@ app.get('/countries/:country/rawdata', function(req, res){
   const { country } = req.params
   findCountry(country).then(result => {
     res.send(result);
+    console.log('Sent raw data of ' + country)
   })
 })
 
@@ -104,24 +113,28 @@ app.get('/countries/:country', function(req, res){
   const { country } = req.params
   countryData(country).then(result => {
     res.send(result);
+    console.log('Sent data of ' + country)
   })
 })
 
 app.get('/countries', function(req,res){
   getTotalCountries().then(result=>{
     res.send(result);
+    console.log('Sent list of countries.')
   })
 })
 
 app.get('/alldata', function(req,res){
   scrapeCompleteTable().then(result=> {
     res.send(result)
+    console.log('Sent all data.')
   })
 })
 
 app.get('/worlddata', function(req, res){
   scrapeWorldData().then(result =>{
     res.send(result)
+    console.log('Sent world data.')
   })
 })
 
