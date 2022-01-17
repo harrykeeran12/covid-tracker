@@ -9,20 +9,22 @@ import Form from './components/Form';
 
 const App = () => {
   const [World, setWorld] = useState([])
-  const [Selected, setSelected] = useState(['UK', 'USA'])
+  const [Selected, setSelected] = useState('UK')
   const [Data, setData] = useState([])
   const api = axios.create({baseURL: 'http://localhost:3001'})
   useEffect(() => {
     api.get('/worlddata').then(res=>{
       setWorld(res.data)
-    },
-    api.get('/countries/' + Selected[0] + '/rawdata').then(res=>{
-      setData(res.data)
     }
-    ),
   )
     
   }, [])
+  useEffect(() => {
+    api.get('/countries/' + Selected + '/rawdata').then(res=>{
+      setData(res.data)
+    }
+    )
+  }, [Selected])
   
   
   return (
@@ -30,7 +32,7 @@ const App = () => {
       <div className="CountryWrapper">
         <Card data={World} type='world'></Card>
         <Card data={Data}></Card>
-        <Form></Form>
+        <Form selected={Selected} changeSelect={setSelected}></Form>
       </div>
       <div className="GraphWrapper"></div>
     </div>

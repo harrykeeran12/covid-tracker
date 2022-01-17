@@ -2,14 +2,14 @@ import './Form.css';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Select from 'react-select';
-function Form() {
+function Form(props) {
   const [FormList, setFormList] = useState([])
-  const [Selected, setSelected] = useState('')
+  const [FormSelected, setFormSelected] = useState('')
   const api = axios.create({baseURL: 'http://localhost:3001'})
   let options = [];
 
   const handleChange = e => {
-    setSelected(e.value);
+    setFormSelected(e.value);
   }
   useEffect(() => {
     api.get('/countries').then(res=>{
@@ -26,7 +26,9 @@ function Form() {
   temp.forEach(e => {
     options.push({value: e, label: e})
   });
-  console.log(Selected)
+  console.log(FormSelected)
+  props.changeSelect(FormSelected)
+  console.log(props.selected)
   /* console.log(options) */
   return ( 
     <div className='FormWrapper'>
@@ -35,7 +37,7 @@ function Form() {
     placeholder='Select a country to find the data of:'
     isSearchable 
     makeAnimated
-    value={options.find(obj => obj.value === Selected)}
+    value={options.find(obj => obj.value === FormSelected)}
     onChange={handleChange}
     ></Select>
     </div>
