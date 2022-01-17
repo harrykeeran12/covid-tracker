@@ -1,8 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import './Form.css';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Select from 'react-select';
+
 function Form(props) {
+ /*  States */
   const [FormList, setFormList] = useState([])
   const [FormSelected, setFormSelected] = useState('')
   const api = axios.create({baseURL: 'http://localhost:3001'})
@@ -11,6 +14,7 @@ function Form(props) {
   const handleChange = e => {
     setFormSelected(e.value);
   }
+
   useEffect(() => {
     api.get('/countries').then(res=>{
       let temp = res.data
@@ -23,12 +27,12 @@ function Form(props) {
   }, [])
 
   let temp = FormList
+
   temp.forEach(e => {
     options.push({value: e, label: e})
   });
-  console.log(FormSelected)
+
   props.changeSelect(FormSelected)
-  console.log(props.selected)
   /* console.log(options) */
   return ( 
     <div className='FormWrapper'>
