@@ -3,6 +3,10 @@ import './App.css';
 import Card from './components/Card';
 import { useState, useEffect}  from 'react';
 import axios from 'axios';
+import Form from './components/Form';
+
+
+
 const App = () => {
   const [World, setWorld] = useState([])
   const [Selected, setSelected] = useState(['UK', 'USA'])
@@ -15,7 +19,7 @@ const App = () => {
     api.get('/countries/' + Selected[0] + '/rawdata').then(res=>{
       setData(res.data)
     }
-    )
+    ),
   )
     
   }, [])
@@ -25,8 +29,8 @@ const App = () => {
     <div className="App">
       <div className="CountryWrapper">
         <Card data={World} type='world'></Card>
-        
         <Card data={Data}></Card>
+        <Form></Form>
       </div>
       <div className="GraphWrapper"></div>
     </div>

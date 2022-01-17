@@ -3,7 +3,6 @@ import React from 'react'
 function Card(props) {
   const data = props.data;
   const type = props.type;
-  console.log(props)
   return ( 
     <div className='CardWrapper' type={type}>
       {type == 'world'
