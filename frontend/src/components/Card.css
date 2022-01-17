@@ -10,7 +10,15 @@
   border-radius: 5px;
   margin-top: 60px;
   color: #005AA3;
+  font-family: 'Fira Sans', sans-serif;
 }
 .CardWrapper:not([type='world']):hover{
   background-color: rgba(195, 183, 182, 0.75);
 }
+.Redo{
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;
+
+}
+

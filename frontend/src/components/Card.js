@@ -14,9 +14,11 @@ function Card(props) {
       </>
       : <>
       <span className='Redo'></span>
+      <>
       <p>{data[1]} Total: {data[2]}</p>
       <p>{data[1]} Recovered: {data[4]}</p>
       <p>{data[1]} Deaths: {data[6]}</p> 
+      </>
       </>
       }
     </div>
