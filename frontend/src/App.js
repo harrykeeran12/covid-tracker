@@ -5,6 +5,7 @@ import Card from './components/Card';
 import { useState, useEffect}  from 'react';
 import axios from 'axios';
 import Form from './components/Form';
+import Graph from './components/Graph';
 
 
 
@@ -16,7 +17,8 @@ const App = () => {
   const [World, setWorld] = useState([])
   const [Selected, setSelected] = useState('UK')
   const [Data, setData] = useState([])
-
+  const cachedWorld = JSON.parse(localStorage.getItem("world"));
+  const cachedData = JSON.parse(localStorage.getItem("data"));
 
 
   const api = axios.create({baseURL: 'http://localhost:3001'})
@@ -46,8 +48,7 @@ const App = () => {
         <Form selected={Selected} changeSelect={setSelected}></Form>
       </div>
       <div className="GraphWrapper">
-
-        
+        <Graph worldData={World} selectedData={Data} cachedWorld={cachedWorld} cachedData={cachedData}></Graph>
       </div>
     </div>
   );
