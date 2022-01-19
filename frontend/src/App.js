@@ -11,9 +11,6 @@ import Graph from './components/Graph';
 
 const App = () => {
 /* States */
-  /* const [World, setWorld] = useState(() => JSON.parse(localStorage.getItem("world")))
-  const [Selected, setSelected] = useState(localStorage.getItem('selected'))
-  const [Data, setData] = useState(() => {JSON.parse(localStorage.getItem('data'))}) */
   const [World, setWorld] = useState([])
   const [Selected, setSelected] = useState('')
   const [Data, setData] = useState([])
