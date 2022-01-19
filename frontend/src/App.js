@@ -15,27 +15,31 @@ const App = () => {
   const [Selected, setSelected] = useState(localStorage.getItem('selected'))
   const [Data, setData] = useState(() => {JSON.parse(localStorage.getItem('data'))}) */
   const [World, setWorld] = useState([])
-  const [Selected, setSelected] = useState('UK')
+  const [Selected, setSelected] = useState('')
   const [Data, setData] = useState([])
-  const cachedWorld = JSON.parse(localStorage.getItem("world"));
-  const cachedData = JSON.parse(localStorage.getItem("data"));
-
+  let cachedWorld = JSON.parse(localStorage.getItem("world"));
+  let cachedData = JSON.parse(localStorage.getItem("data"));
+  
 
   const api = axios.create({baseURL: 'http://localhost:3001'})
 /*   Hooks */
   useEffect(() => {
     api.get('/worlddata').then(res=>{
       setWorld(res.data)
+      
     })}, [])
   useEffect(() => {
-    api.get('/countries/' + Selected + '/rawdata').then(res=>{
+    if (Selected !== '') {
+      api.get('/countries/' + Selected + '/rawdata').then(res=>{
       setData(res.data)
-    })}, [Selected])
+    })
+    }
+    }, [Selected])
   
-  if (World !== []) {
+  if (World.length !== 0) {
     localStorage.setItem('world', JSON.stringify(World))
   }
-  if (Data !== []) {
+  if (Data.length !== 0) {
     localStorage.setItem('data', JSON.stringify(Data))
     localStorage.setItem('selected', Selected)
   }
