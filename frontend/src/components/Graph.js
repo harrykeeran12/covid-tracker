@@ -48,7 +48,7 @@ function Graph(props) {
         label: 'Total Cases',
         data: [parseInt(worldData[2].split(',').join('')), parseInt(selectedData[2].split(',').join(''))]
         /* data: [1000, 10000] */,
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+        backgroundColor: 'rgba(255, 99, 132, 0.25)',
       },
       {
         label: 'Total Recovered',
@@ -64,7 +64,7 @@ function Graph(props) {
   };
   return ( 
     <div className='GraphWrapper'>
-      <Bar options={options} data={data} width={400} height={200}></Bar>
+      <Bar options={options} data={data} ></Bar>
       {/* <p>{props.cachedData}</p> */}
     </div>
    );

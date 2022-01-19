@@ -5,9 +5,11 @@ import axios from 'axios';
 import Select from 'react-select';
 
 function Form(props) {
+  const cachedFormList = JSON.parse(localStorage.getItem('countrylist'));
  /*  States */
-  const [FormList, setFormList] = useState([])
+  const [FormList, setFormList] = useState(cachedFormList)
   const [FormSelected, setFormSelected] = useState('')
+  /* const cachedFormList = JSON.parse(localStorage.getItem('countrylist')); */
   const api = axios.create({baseURL: 'http://localhost:3001'})
   let options = [];
 
@@ -25,7 +27,9 @@ function Form(props) {
       /* console.log(FormList) */
     })
   }, [])
-
+  if (FormList.length !== 0) {
+    localStorage.setItem('countrylist', JSON.stringify(FormList))
+  }
   let temp = FormList
 
   temp.forEach(e => {
